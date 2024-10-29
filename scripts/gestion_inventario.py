@@ -17,12 +17,22 @@ def cargar_inventario():
     return inventario
 
 def consultar_inventario():
-    """Muestra el inventario actual desde la base de datos."""
-    inventario = cargar_inventario()
-    if inventario:
-        print("Inventario Actual:")
-        for producto, cantidad, ubicacion in inventario:
-            print(f"Producto: {producto}, Cantidad: {cantidad}, Ubicación: {ubicacion}")
+    """Muestra el inventario actual desde la base de datos y lo devuelve."""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT producto, cantidad FROM inventario")
+        inventario = cursor.fetchall()
+        conn.close()
+
+        if not inventario:
+            return []
+
+        return inventario
+    except sqlite3.Error as e:
+        print(f"Error al acceder a la base de datos: {e}")
+        return []
+
 
 def agregar_producto(producto, cantidad, ubicacion="No especificada"):
     """Agrega un nuevo producto al inventario en la base de datos."""

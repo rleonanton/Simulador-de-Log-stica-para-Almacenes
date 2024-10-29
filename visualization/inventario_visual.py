@@ -1,7 +1,11 @@
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
-from db_config import DB_PATH
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from scripts.db_config import DB_PATH
+
 
 def visualizar_inventario():
     """Visualiza el estado del inventario en un gráfico de barras desde la base de datos SQLite."""
